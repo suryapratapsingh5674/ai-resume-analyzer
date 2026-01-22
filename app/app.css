@@ -150,3 +150,7 @@ form {
     opacity: 1;
   }
 }
+
+textarea{
+  resize: none;
+}
