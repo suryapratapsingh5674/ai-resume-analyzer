@@ -1,10 +1,19 @@
 import { AIResponseFormat, prepareInstructions } from 'constants/index';
 import { useState, type FormEvent } from 'react'
+import { useNavigate } from 'react-router';
 import FileUploader from '~/components/FileUploader';
 import Navbar from '~/components/Navbar'
 import { convertPdfToImage } from '~/lib/pdf2image';
 import { usePuterStore } from '~/lib/puter';
 import { generateUUID } from '~/lib/utils';
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Resumind|Upload" },
+    { name: "description", content: "Smart feedback from your dream job!" },
+  ];
+}
+
 
 const upload = () => {
 
@@ -15,6 +24,7 @@ const upload = () => {
     const handleFileSelect = (file : File | null) => {
         setFile(file)
     }
+    const navigate = useNavigate();
 
     const handleAnalyze = async ({componyName, jobTitle, jobDescription, file} : {componyName:string, jobTitle:string, jobDescription:string, file:File}) => {
         setIsProcessing(true);
@@ -60,8 +70,8 @@ const upload = () => {
         if (!feedbackText) return setStatusText('Error: Invalid feedback response');
         data.feedback = JSON.parse(feedbackText);
         await kv.set(`resume:${uuid}`, JSON.stringify(data));
-        setStatusText('Analysis complete, redirecting');
-        console.log(data);
+        setStatusText('Analysis complete, redirecting...');
+        navigate(`/resume/${uuid}`);
     }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>)=>{
@@ -83,7 +93,7 @@ const upload = () => {
     }
 
   return (
-    <main className="bg-[url('/images/bg-main.svg')] bg-cover">
+    <main className="bg-[#EEF2FF] bg-cover">
         <Navbar/>
         <section className="main-section">
             <div className='page-heading py-8'>
