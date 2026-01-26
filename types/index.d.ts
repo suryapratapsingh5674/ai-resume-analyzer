@@ -7,7 +7,7 @@ interface Job {
 
 interface Resume {
   id: string;
-  companyName?: string;
+  componyName?: string;
   jobTitle?: string;
   imagePath: string;
   resumePath: string;
